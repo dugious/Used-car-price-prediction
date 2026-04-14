@@ -1,43 +1,42 @@
-# 🚗 Used Car Price Prediction (Dự đoán Giá Xe Cũ)
+# Used Car Price Prediction: Finding the "Good Deals"
 
-Dự án thu thập dữ liệu thực tế từ thị trường xe hơi cũ tại Việt Nam và xây dựng mô hình Machine Learning để định giá, nhằm phát hiện các "Món hời" (Good Deals) cho người mua.
+An end-to-end Data Science project that scrapes real-world data from the Vietnamese used car market and builds a Machine Learning model to predict car prices. The ultimate goal is to identify undervalued vehicles ("Good Deals") for potential buyers.
 
-## 🎯 Mục tiêu dự án
-* Xây dựng pipeline tự động cào dữ liệu (Web Scraping) hàng nghìn tin đăng bán xe.
-* Tiền xử lý dữ liệu, làm sạch các giá trị ngoại lai (Outliers) và Feature Engineering (tính tuổi xe, phân loại hạng thương hiệu).
-* Áp dụng thuật toán **XGBoost** để dự đoán giá trị thực của xe dựa trên thông số.
-* Trực quan hóa dữ liệu tương tác để phân tích độ lệch giá.
+##  Project Objectives
+* Build an automated Web Scraping pipeline to collect thousands of used car listings.
+* Perform Data Preprocessing, Outlier Removal, and Feature Engineering (e.g., calculating car age, categorizing brand tiers).
+* Train and optimize an **XGBoost Regressor** to accurately predict the market value of vehicles based on their specifications.
+* Create interactive data visualizations to analyze price discrepancies and market trends.
 
-## 🛠️ Công nghệ sử dụng
-* **Ngôn ngữ:** Python
-* **Thu thập dữ liệu:** `requests`, `BeautifulSoup`, `Regex`
-* **Xử lý dữ liệu:** `pandas`, `numpy`
+##  Tech Stack
+* **Language:** Python
+* **Data Collection (Scraping):** `requests`, `BeautifulSoup`, `Regex`
+* **Data Manipulation:** `pandas`, `numpy`
 * **Machine Learning:** `scikit-learn`, `XGBoost`
-* **Trực quan hóa:** `Matplotlib`, `Seaborn`, `Plotly`
+* **Data Visualization:** `Matplotlib`, `Seaborn`, `Plotly`
 
-## 📊 Quy trình thực hiện
+##  Pipeline Overview
 
-### 1. Data Collection (Cào dữ liệu)
-* Script `scraper.py` tự động quét qua các trang danh mục của Bonbanh.com.
-* Sử dụng Regex để bóc tách các chuỗi văn bản phức tạp thành các đặc trưng rõ ràng: `Hãng_Mẫu`, `Năm_SX`, `Giá_Triệu`, `Số_KM`.
+### 1. Data Collection
+* The `scraper.py` script automatically navigates through Bonbanh.com listings.
+* Utilizes Regular Expressions (Regex) to extract structured features (`Brand_Model`, `Manufacture_Year`, `Price`, `Mileage`) from complex raw text.
 
 ### 2. Data Preprocessing & Feature Engineering
-* **Outlier Removal:** Loại bỏ các tin đăng có giá trị phi lý (> 10 Tỷ VNĐ) để tránh nhiễu mô hình.
-* **Feature Creation:** * `Tuổi_xe` = Năm hiện tại - Năm sản xuất.
-  * `Brand_Tier` = Phân loại hạng sang (Porsche, Mercedes), hạng giữ giá (Toyota) và phổ thông dựa trên thị hiếu.
+* **Outlier Removal:** Filtered out anomalous listings (e.g., fake prices > 10 Billion VND) to ensure model robustness.
+* **Feature Creation:** * `Car_Age`: Derived from the manufacture year.
+  * `Brand_Tier`: Grouped car brands into distinct tiers (Luxury, High-Retention Standard, Normal Standard) based on market depreciation behaviors.
 
 ### 3. Modeling
-* So sánh giữa Random Forest và **XGBoost**. 
-* XGBoost được tinh chỉnh (Hyperparameter Tuning) để chống Overfitting (giảm max_depth, thêm subsample).
-* **Kết quả:** Mô hình đạt độ chính xác (R2 Score) ổn định, phản ánh đúng quy luật rớt giá của thị trường.
+* Evaluated baseline models (Random Forest) against **XGBoost**.
+* Applied Hyperparameter Tuning to the XGBoost model (adjusting `max_depth`, `subsample`, `learning_rate`) to mitigate overfitting and improve prediction accuracy on unseen data.
+* **Result:** Achieved a stable R2 Score and minimized Mean Absolute Error (MAE), reflecting true market depreciation patterns.
 
-## 📈 Trực quan hóa nổi bật
+##  Key Visualizations
 
-* Các biểu đồ tương tác (Plotly) cho phép người dùng lướt chuột để xem chi tiết chiếc xe nào đang được bán dưới giá trị thực tế (Giá niêm yết < Giá dự đoán).
-* Biểu đồ **Feature Importance** chứng minh `Tuổi_xe` và `Hãng_xe` là các yếu tố quyết định mạnh mẽ nhất đến giá trị còn lại của xe.
+* **Interactive Deal Finder:** Plotly scatter plots allow users to hover over data points and identify specific cars being sold below their predicted market value (Listing Price < Predicted Price).
+* **Feature Importance:** Visual proof that `Car_Age` and `Brand_Tier` are the most influential factors dictating a vehicle's residual value.
 
-## 🚀 Hướng dẫn chạy dự án
-1. Clone repository này về máy.
-2. Cài đặt các thư viện cần thiết: `pip install -r requirements.txt`
-3. Chạy file `scraper.py` để lấy dữ liệu mới nhất.
-4. Mở `project_xe_cu.ipynb` để huấn luyện mô hình và xem biểu đồ.
+## 🚀 How to Run the Project
+1. Clone this repository to your local machine:
+   ```bash
+   git clone [https://github.com/your-username/UsedCar-Price-Prediction.git](https://github.com/your-username/UsedCar-Price-Prediction.git)
